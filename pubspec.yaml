@@ -40,6 +40,9 @@ dependencies:
   google_fonts: ^6.1.0        # সুন্দর ফন্টের জন্য
   fl_chart: ^0.63.0           # ড্যাশবোর্ড গ্রাফের জন্য
   intl: ^0.18.1               # তারিখ ফরম্যাট করার জন্য
+  get:
+  get_storage: ^2.1.1
+  image_picker: ^1.2.1
 
 dev_dependencies:
   flutter_test:

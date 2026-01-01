@@ -10,6 +10,7 @@ class ProvidersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // কন্ট্রোলার ইনিশিয়ালাইজ করা
     final controller = Get.put(ProvidersController());
 
     return Scaffold(
@@ -50,6 +51,7 @@ class ProvidersView extends StatelessWidget {
     Color statusColor = status == 'active' ? Colors.green : (status == 'blocked' ? Colors.red : Colors.orange);
 
     String? imageUrl = item['image_url'];
+    // ইমেজ URL চেক
     if (imageUrl == null && item['image'] != null && item['image'].toString().isNotEmpty) {
       imageUrl = ApiConstants.imageBaseUrl + item['image'];
     }

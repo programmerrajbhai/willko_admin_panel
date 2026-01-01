@@ -17,12 +17,13 @@ class _ProviderDetailsViewState extends State<ProviderDetailsView> {
   @override
   void initState() {
     super.initState();
-    // পেজ লোড হলে হিস্ট্রি কল করবে
+    // পেজ লোড হলে হিস্ট্রি এবং ডিউ চেক করবে
     _loadData();
   }
 
   // ডাটা লোড/রিফ্রেশ ফাংশন
   Future<void> _loadData() async {
+    // Controller এর fetchProviderDetails ফাংশনটি আপডেট করা থাকতে হবে যাতে current_due আসে
     await controller.fetchProviderDetails(int.parse(widget.provider['id'].toString()));
   }
 
@@ -99,7 +100,7 @@ class _ProviderDetailsViewState extends State<ProviderDetailsView> {
 
               const SizedBox(height: 15),
 
-              // ২. ইনকাম স্ট্যাটস
+              // ২. ইনকাম এবং ডিউ স্ট্যাটস [UPDATED]
               Obx(() => Container(
                 margin: const EdgeInsets.symmetric(horizontal: 15),
                 padding: const EdgeInsets.all(20),
@@ -109,9 +110,13 @@ class _ProviderDetailsViewState extends State<ProviderDetailsView> {
                     boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), blurRadius: 10)]
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // সমান দূরত্বে ছড়ানোর জন্য
                   children: [
                     _statItem("Total Income", "৳${controller.totalIncome.value}", Icons.attach_money, Colors.green),
+
+                    // [NEW] Current Due Section (Red Color)
+                    _statItem("Current Due", "৳${controller.currentDue.value}", Icons.warning_amber_rounded, Colors.redAccent),
+
                     _statItem("Total Jobs", "${controller.providerHistory.length}", Icons.work, Colors.orange),
                   ],
                 ),
@@ -179,7 +184,15 @@ class _ProviderDetailsViewState extends State<ProviderDetailsView> {
     );
   }
 
+  // স্ট্যাট আইটেম ডিজাইন
   Widget _statItem(String label, String value, IconData icon, Color color) {
-    return Column(children: [Icon(icon, color: color, size: 30), const SizedBox(height: 5), Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)), Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12))]);
+    return Column(
+        children: [
+          Icon(icon, color: color, size: 28),
+          const SizedBox(height: 5),
+          Text(value, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color)),
+          Text(label, style: const TextStyle(color: Colors.grey, fontSize: 12))
+        ]
+    );
   }
 }

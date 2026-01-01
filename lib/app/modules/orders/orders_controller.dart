@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../data/models/simple_provider_model.dart';
 import '../../data/services/api_client.dart';
 import '../../core/values/api_constants.dart';
 import '../../data/models/order_model.dart';
@@ -96,6 +97,25 @@ class OrdersController extends GetxController {
       }
     } catch (e) {
       Get.snackbar("Error", "Could not delete");
+    }
+  }
+  // ৬. পেমেন্ট স্ট্যাটাস আপডেট (Unpaid -> Paid)
+  void updatePaymentStatus(int id, String status) async {
+    try {
+      final response = await _apiClient.postData(ApiConstants.orderPaymentUpdate, {
+        "id": id,
+        "payment_status": status
+      });
+
+      if (response.statusCode == 200 && response.body['status'] == 'success') {
+        Get.snackbar("Success", "Payment marked as $status");
+        fetchOrders(); // লিস্ট রিফ্রেশ করে নতুন স্ট্যাটাস দেখানো
+        Get.back(); // ডায়ালগ থাকলে বন্ধ হবে
+      } else {
+        Get.snackbar("Error", response.body['message'] ?? "Failed to update payment");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Connection error: $e");
     }
   }
 }

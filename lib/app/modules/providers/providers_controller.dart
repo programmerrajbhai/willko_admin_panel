@@ -19,6 +19,7 @@ class ProvidersController extends GetxController {
   var isHistoryLoading = false.obs;
   var providerHistory = <dynamic>[].obs;
   var totalIncome = 0.0.obs;
+  var currentDue = 0.0.obs; // [NEW] বকেয়া টাকার ভেরিয়েবল
 
   // ইমেজ পিকার
   var selectedImage = Rxn<File>();
@@ -106,11 +107,12 @@ class ProvidersController extends GetxController {
     }
   }
 
-  // ৪. ডিটেইলস এবং হিস্ট্রি আনা
+  // ৪. ডিটেইলস এবং হিস্ট্রি আনা (সাথে Due Amount)
   Future<void> fetchProviderDetails(int id) async {
     isHistoryLoading.value = true;
     providerHistory.clear();
     totalIncome.value = 0.0;
+    currentDue.value = 0.0; // রিসেট
 
     try {
       String url = "${ApiConstants.providerHistory}?id=$id";
@@ -118,7 +120,10 @@ class ProvidersController extends GetxController {
 
       if (response.statusCode == 200 && response.body['status'] == 'success') {
         providerHistory.value = response.body['data'];
+
+        // [UPDATE] ইনকাম এবং ডিউ পার্স করা
         totalIncome.value = double.tryParse(response.body['total_income'].toString()) ?? 0.0;
+        currentDue.value = double.tryParse(response.body['current_due'].toString()) ?? 0.0;
       }
     } catch (e) {
       print("History Error: $e");

@@ -20,6 +20,9 @@ class ApiConstants {
   static const String orderAssign = '/admin/orders/assign.php';
   static const String orderStatus = '/admin/orders/status.php';
   static const String orderDelete = '/admin/orders/delete.php';
+// এই লাইনটি নতুন যোগ করুন:
+  static const String orderPaymentUpdate = '/admin/orders/update_payment.php';
+
 
   // === Providers (প্রোভাইডার ম্যানেজমেন্ট) ===
   static const String providersList = '/admin/providers/list.php';

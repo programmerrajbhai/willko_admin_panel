@@ -6,6 +6,7 @@ import '../app/modules/auth/login_view.dart';
 import '../app/modules/finance/finance_view.dart';
 import '../app/modules/marketing/marketing_view.dart';
 import '../app/modules/orders/orders_list_view.dart';
+// নিশ্চিত হোন ফাইলের নাম providers_view.dart
 import '../app/modules/providers/providers_view.dart';
 import '../app/modules/services/services_view.dart';
 import '../app/modules/settings/settings_view.dart';
@@ -31,44 +32,43 @@ class SidebarDrawer extends StatelessWidget {
             ),
           ),
 
-
           // Menu Items
-          _buildMenuItem(Icons.dashboard, "Dashboard", () => Get.back()), // Close drawer on same page
-          // এই লাইনটি খুঁজে আপডেট করুন:
+          _buildMenuItem(Icons.dashboard, "Dashboard", () => Get.back()),
+
           _buildMenuItem(Icons.shopping_cart, "Orders", () {
-            Get.back(); // ড্রয়ার বন্ধ
-            Get.to(() => const OrdersListView()); // অর্ডারে যাওয়া
+            Get.back();
+            Get.to(() => const OrdersListView());
           }),
-          // Providers
+
+          // Providers Section
           _buildMenuItem(Icons.people, "Providers", () {
             Get.back();
+            // এই লাইনটিতেই এরর আসছিল। ফাইলের নাম ঠিক করলে এটি চলে যাবে।
             Get.to(() => const ProvidersView());
           }),
 
-// Services
           _buildMenuItem(Icons.category, "Services", () {
             Get.back();
             Get.to(() => const ServicesView());
           }),
 
-
-          // Marketing
           _buildMenuItem(Icons.campaign, "Marketing", () {
             Get.back();
             Get.to(() => const MarketingView());
           }),
 
-// Finance
           _buildMenuItem(Icons.attach_money, "Finance", () {
             Get.back();
             Get.to(() => const FinanceView());
           }),
-          // Settings আইটেমটি আপডেট করুন
+
           _buildMenuItem(Icons.settings, "Settings", () {
             Get.back();
             Get.to(() => const SettingsView());
           }),
+
           const Divider(),
+
           _buildMenuItem(Icons.logout, "Logout", () {
             StorageService.clear();
             Get.offAll(() => LoginView());
